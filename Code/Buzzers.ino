@@ -56,10 +56,12 @@ const int buttonPins[] = {anaBP, nathanaelBP, moomooBP, juniorTerroristBP, popoB
 const int buttonCount = sizeof(buttonPins) / sizeof(buttonPins[0]);
 
 volatile bool clearPressed = false;
+bool buzzerPressed = false;
 int buzzerID = 0;
 
 void IRAM_ATTR clearISR() {
     clearPressed = true;
+    buzzerPressed = false;
 }
 
 void setup() {
@@ -90,11 +92,12 @@ void loop() {
 void buzzerLoop() {
     FastLED.setBrightness(BRIGHTNESS_OFF);
     buzzerID = 0;
-    while (buzzerID == 0) {
+    while (!buzzerPressed) {
         for (int i = 0; i < buttonCount; i++) {
             if (digitalRead(buttonPins[i]) == HIGH) {
+                buzzerPressed = false;
                 buzzerID = buttonPins[i];
-                tone(buzzerPin, 1000, 100); // Beep for 500ms
+                tone(buzzerPin, 1000, 100); // Beep for 100ms
                 whiteScreen();
                 control();
                 return;
@@ -107,16 +110,13 @@ void buzzerLoop() {
 void control() {
     FastLED.setBrightness(BRIGHTNESS_ON);
     int color = (buzzerID >= quinnBP) ? CRGB::Blue : CRGB::Yellow;
-    int startIdx = (buzzerID % 5) * 4;
-    
+    int startIdx = (buzzerID % 5) * 4; 
     for (int i = startIdx; i <= startIdx + 3; i++) {
         leds[i] = color;
     }
-    
     for (int i = 0; i < BOX_LEDS; i++) {
         boxLeds[i] = color;
     }
-    
     FastLED.show();
     threeSeconds();
     printCenteredText("3 SECONDS UP");
