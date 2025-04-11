@@ -1,3 +1,5 @@
 # Bible-Bowl-Buzzers
-Wiring, CAD, and code to build your own set of lockout buzzers for Bible Bowl.
-![circuit_image](https://github.com/user-attachments/assets/58788d02-3fb9-4cfd-8d2f-648a3a45212c)
+Wiring, CAD, and code to build your own set of lockout buzzers.\
+Nearly all functionality is in code and CAD, so this design is extremely versatile
+<img src="/Documentation/circuit_image.svg" alt="Wiring Diagram">
+<img src="/Documentation/display_set.png" alt="Completed Set">
